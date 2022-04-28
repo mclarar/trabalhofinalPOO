@@ -32,29 +32,31 @@ public class Principal {
 				String[] dadosLinhas = linha.split(";");
 				String nome = dadosLinhas[0];
 				String cpf = dadosLinhas[1];
-				LocalDate dataNascimento = LocalDate.parse(dadosLinhas[2]);
+				LocalDate dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
+				System.out.println(dataNascimento);
 				Double salario = Double.parseDouble(dadosLinhas[3]);
 				listaFuncionarios.add(new Funcionario(nome,cpf,dataNascimento,salario));
-
+				
 				while (leitor.hasNext()) {
 					linha = leitor.nextLine();
 					if (linha.isEmpty()) {
 						break;
-					}
+					}else {
 
 					String dadosLinhasDependente[] = linha.split(";");
 					String nomeDependente = dadosLinhasDependente[0];
 					String cpfDependente = dadosLinhasDependente[1];
-					LocalDate.parse(dadosLinhasDependente[2]);
+					LocalDate dataNascimentoDependente = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
 					String parentesco = dadosLinhasDependente[3];
 				}
 			}
-			leitor.close();
+			}	leitor.close();
 		} catch (Exception e) {
 			System.out.println("Deu ruim na leitura!");
 		}
 		for (Funcionario funcionario : listaFuncionarios) {
 			System.out.println(funcionario);
 		}
-	}
+	
+}
 }

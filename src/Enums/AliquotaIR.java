@@ -2,7 +2,7 @@ package Enums;
 
 public enum AliquotaIR {
 
-	TIPO1(100, 142.80), TIPO2(100, 354.80), TIPO3(100, 636.13), TIPO4(100, 869.36);
+	TIPO1(0.075, 142.80), TIPO2(0.15, 354.80), TIPO3(0.225, 636.13), TIPO4(0.275, 869.36);
 
 	private double aliquota;
 	private double deduzir;

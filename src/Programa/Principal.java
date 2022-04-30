@@ -13,6 +13,7 @@ import java.util.Scanner;
 import Exceptions.DependenteExceptions;
 import Pessoa.Dependente;
 import Pessoa.Funcionario;
+import Pessoa.Pessoa;
 
 public class Principal {
 
@@ -32,6 +33,7 @@ public class Principal {
 				Double salario = Double.parseDouble(dadosLinhas[3]);
 				Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
 				listaFuncionarios.add(funcionario);
+				Pessoa.adicionarPessoa(funcionario);
 				while (leitor.hasNext()) {
 					linha = leitor.nextLine();
 					if (linha.isEmpty()) {
@@ -40,10 +42,15 @@ public class Principal {
 						dadosLinhas = linha.split(";");
 						nome = dadosLinhas[0];
 						cpf = dadosLinhas[1];
+						
 						dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
 						String parentesco = dadosLinhas[3];
 						try {
+							//for (Funcionario funcionario2 : listaFuncionarios) {
+								Pessoa.verificaCPF(cpf);
+							//}
 							Dependente dependente = new Dependente(nome, cpf, dataNascimento);
+							Pessoa.adicionarPessoa(dependente);
 							funcionario.calcularValorDependente();
 							funcionario.adicionarDependente(dependente);
 							funcionario.verificaDependente(dependente);
@@ -77,4 +84,5 @@ public class Principal {
 			e.printStackTrace();
 		}
 	}
+
 }

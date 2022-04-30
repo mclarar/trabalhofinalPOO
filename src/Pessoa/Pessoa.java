@@ -1,12 +1,17 @@
 package Pessoa;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import Exceptions.DependenteExceptions;
 
 public abstract class Pessoa {
 	protected String nome;
 	protected String cpf;
 	protected LocalDate dataNascimento;
+	private static List<Pessoa> pessoas = new ArrayList<>();
 
 	public Pessoa(String nome, String cpf, LocalDate dataNascimento) {
 		super();
@@ -29,6 +34,18 @@ public abstract class Pessoa {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public static void adicionarPessoa(Pessoa pessoa) {
+		pessoas.add(pessoa);
+	}
+
+	public static void verificaCPF(String cpf) {
+		for (Pessoa dependente : pessoas) {
+			if (dependente.getCpf().equals(cpf)) {
+				throw new DependenteExceptions("cpf igual");
+			}
+		}
 	}
 
 	@Override

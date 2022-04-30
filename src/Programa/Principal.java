@@ -1,26 +1,22 @@
 package Programa;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
+import Exceptions.DependenteExceptions;
+import Pessoa.Dependente;
 import Pessoa.Funcionario;
 
 public class Principal {
 
 	public static void main(String[] args) {
-
-		// String path = "/trabalhofinalPOO/planilha_funcionarios_dependentes.csv";
 
 		List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
 
@@ -33,30 +29,52 @@ public class Principal {
 				String nome = dadosLinhas[0];
 				String cpf = dadosLinhas[1];
 				LocalDate dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
-				System.out.println(dataNascimento);
 				Double salario = Double.parseDouble(dadosLinhas[3]);
-				listaFuncionarios.add(new Funcionario(nome,cpf,dataNascimento,salario));
-				
+				Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
+				listaFuncionarios.add(funcionario);
 				while (leitor.hasNext()) {
 					linha = leitor.nextLine();
 					if (linha.isEmpty()) {
 						break;
-					}else {
-
-					String dadosLinhasDependente[] = linha.split(";");
-					String nomeDependente = dadosLinhasDependente[0];
-					String cpfDependente = dadosLinhasDependente[1];
-					LocalDate dataNascimentoDependente = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
-					String parentesco = dadosLinhasDependente[3];
+					} else {
+						dadosLinhas = linha.split(";");
+						nome = dadosLinhas[0];
+						cpf = dadosLinhas[1];
+						dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
+						String parentesco = dadosLinhas[3];
+						try {
+							Dependente dependente = new Dependente(nome, cpf, dataNascimento);
+							funcionario.calcularValorDependente();
+							funcionario.adicionarDependente(dependente);
+							funcionario.verificaDependente(dependente);
+						} catch (DependenteExceptions e) {
+							System.out.println(e.getMessage());
+						}
+					}
 				}
+				funcionario.calcularINSS();
+				funcionario.calcularValorDependente();
+				funcionario.calcularIR();
+				funcionario.calcularSalarioLiquido();
 			}
-			}	leitor.close();
+			leitor.close();
+			System.out.println("leitura realizada com sucesso");
 		} catch (Exception e) {
 			System.out.println("Deu ruim na leitura!");
 		}
-		for (Funcionario funcionario : listaFuncionarios) {
-			System.out.println(funcionario);
+
+		FileWriter caminho;
+		try {
+			caminho = new FileWriter("C:\\Users\\kappa\\eclipse-workspace\\trabalhofinalPOO\\saida.txt");
+			PrintWriter gravar = new PrintWriter(caminho);
+
+			for (Funcionario funcionario : listaFuncionarios) {
+				gravar.println(funcionario);
+				System.out.println(funcionario);
+			}
+			gravar.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-	
-}
+	}
 }

@@ -21,13 +21,11 @@ public class Funcionario extends Pessoa implements MetodoCalculos {
 	private double salarioLiquido;
 	private Set<Dependente> dependentes;
 
-
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto) {
 		super(nome, cpf, dataNascimento);
 		this.salarioBruto = salarioBruto;
 		dependentes = new HashSet<>();
 	}
-
 
 	public int getQtdDependentesValidos() {
 		return qtdDependentesValidos;
@@ -59,6 +57,15 @@ public class Funcionario extends Pessoa implements MetodoCalculos {
 
 	public double getDescontoDependente() {
 		return descontoDependente;
+	}
+	
+
+	public double getSalarioLiquido() {
+		return salarioLiquido;
+	}
+
+	public Set<Dependente> getDependentes() {
+		return dependentes;
 	}
 
 	public void adicionarDependente(Dependente dependente) {

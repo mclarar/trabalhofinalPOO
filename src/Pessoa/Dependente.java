@@ -12,7 +12,6 @@ public class Dependente extends Pessoa {
 		super(nome, cpf, dataNascimento);
 		Period dif = dataNascimento.until(LocalDate.now());
 		if (dif.getYears() >= 18) {
-			
 			throw new DependenteExceptions("Dependente invalido");
 		}
 	}

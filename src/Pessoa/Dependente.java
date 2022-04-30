@@ -1,26 +1,28 @@
 package Pessoa;
 
 import java.time.LocalDate;
+import java.time.Period;
+
+import Exceptions.DependenteExceptions;
 
 public class Dependente extends Pessoa {
-	private Funcionario funcionario;
 
-	public Dependente(String nome, String cpf, LocalDate dataNascimento, Funcionario funcionario) {
+
+	public Dependente(String nome, String cpf, LocalDate dataNascimento) {
 		super(nome, cpf, dataNascimento);
-		this.funcionario = funcionario;
+		Period dif = dataNascimento.until(LocalDate.now());
+		if (dif.getYears() >= 18) {
+			
+			throw new DependenteExceptions("Dependente invalido");
+		}
 	}
+	
 
 	@Override
 	public String toString() {
-		return "Dependente [funcionario=" + funcionario + ", nome=" + nome + ", cpf=" + cpf + "]";
+		return "Dependente [  nome=" + nome + ", cpf=" + cpf + "]" + super.getDataNascimento();
 	}
+	
 
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
 
 }

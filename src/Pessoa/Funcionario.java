@@ -3,12 +3,12 @@ package Pessoa;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import Calculos.MetodoCalculos;
 import Enums.AliquotaINSS;
 import Enums.AliquotaIR;
+import Enums.Parentesco;
 import Exceptions.DependenteExceptions;
 
 public class Funcionario extends Pessoa implements MetodoCalculos {
@@ -58,7 +58,6 @@ public class Funcionario extends Pessoa implements MetodoCalculos {
 	public double getDescontoDependente() {
 		return descontoDependente;
 	}
-	
 
 	public double getSalarioLiquido() {
 		return salarioLiquido;
@@ -79,6 +78,19 @@ public class Funcionario extends Pessoa implements MetodoCalculos {
 		if (periodo.getYears() < 18) {
 			qtdDependentesValidos++;
 		}
+	}
+
+	public Parentesco verificaParentesco(String parentesco) {
+		if (parentesco.equals(Parentesco.TIPO1.getParentesco())) {
+			return Parentesco.TIPO1;
+		} else if (parentesco.equals(Parentesco.TIPO2.getParentesco())) {
+			return Parentesco.TIPO2;
+		} else if (parentesco.equals(Parentesco.TIPO3.getParentesco())) {
+			return Parentesco.TIPO3;
+		} else {
+			throw new DependenteExceptions("Parentesco Invalido");
+		}
+
 	}
 
 	@Override
@@ -126,10 +138,21 @@ public class Funcionario extends Pessoa implements MetodoCalculos {
 		descontoDependente = getQtdDependentesValidos() * 189.59;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return super.toString() + "Funcionario [salarioBruto=" + salarioBruto + "valor dependente" + descontoDependente
 				+ ", descontoIR=" + descontoIR + ", descontoINSS=" + descontoINSS + "salario liquido " + salarioLiquido
 				+ ", listaDependentes=" + dependentes + "]";
+	}*/
+	
+	
+	/*@Override
+	public String toString() {
+		return super.toString() +  String.format("Desconto IR: R$%,.2f | Desconto INSS: R$%,.2f | Salario Liquido: R$%,.2f \n", descontoIR
+               ,descontoINSS , salarioLiquido);
+	}*/
+	
+	public String toString() {
+		return super.toString() +String.format("%,.2f;%,.2f;%,.2f",descontoINSS, descontoIR , salarioLiquido);
 	}
 }

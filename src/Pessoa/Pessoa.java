@@ -41,8 +41,8 @@ public abstract class Pessoa {
 	}
 
 	public static void verificaCPF(String cpf) {
-		for (Pessoa dependente : pessoas) {
-			if (dependente.getCpf().equals(cpf)) {
+		for (Pessoa pessoa : pessoas) {
+			if (pessoa.getCpf().equals(cpf)) {
 				throw new DependenteExceptions("cpf igual");
 			}
 		}
@@ -65,11 +65,18 @@ public abstract class Pessoa {
 		return Objects.equals(cpf, other.cpf);
 	}
 
-	@Override
-	public String toString() {
-		return "Pessoa [nome=" + nome + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento + "]";
-	}
+	/*
+	 * @Override public String toString() { return "Pessoa [nome=" + nome + ", cpf="
+	 * + cpf + ", dataNascimento=" + dataNascimento + "]"; }
+	 */
 
+	/*@Override
+	public String toString() {
+		return "nome: " + nome + " |  cpf:" + cpf + " | data de nascimento=" + dataNascimento + "\n";
+	}*/
+	public String toString() {
+		return nome +";"+ cpf + ";";
+	}
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}

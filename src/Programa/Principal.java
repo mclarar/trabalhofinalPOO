@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Enums.Parentesco;
 import Exceptions.DependenteExceptions;
 import Pessoa.Dependente;
 import Pessoa.Funcionario;
@@ -19,7 +20,7 @@ public class Principal {
 
 	public static void main(String[] args) {
 
-		List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
 		try {
 			Scanner leitor = new Scanner(new File("planilha_funcionarios_dependentes.csv"));
@@ -32,7 +33,7 @@ public class Principal {
 				LocalDate dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
 				Double salario = Double.parseDouble(dadosLinhas[3]);
 				Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
-				listaFuncionarios.add(funcionario);
+				funcionarios.add(funcionario);
 				Pessoa.adicionarPessoa(funcionario);
 				while (leitor.hasNext()) {
 					linha = leitor.nextLine();
@@ -42,14 +43,14 @@ public class Principal {
 						dadosLinhas = linha.split(";");
 						nome = dadosLinhas[0];
 						cpf = dadosLinhas[1];
-						
+
 						dataNascimento = LocalDate.parse(dadosLinhas[2].toString(), DateTimeFormatter.BASIC_ISO_DATE);
 						String parentesco = dadosLinhas[3];
 						try {
-							//for (Funcionario funcionario2 : listaFuncionarios) {
-								Pessoa.verificaCPF(cpf);
-							//}
-							Dependente dependente = new Dependente(nome, cpf, dataNascimento);
+							Pessoa.verificaCPF(cpf);
+							final Parentesco parente;
+							parente = funcionario.verificaParentesco(parentesco);
+							Dependente dependente = new Dependente(nome, cpf, dataNascimento, parente);
 							Pessoa.adicionarPessoa(dependente);
 							funcionario.calcularValorDependente();
 							funcionario.adicionarDependente(dependente);
@@ -72,10 +73,10 @@ public class Principal {
 
 		FileWriter caminho;
 		try {
-			caminho = new FileWriter("C:\\Users\\kappa\\eclipse-workspace\\trabalhofinalPOO\\saida.txt");
+			caminho = new FileWriter("saida.csv");
 			PrintWriter gravar = new PrintWriter(caminho);
 
-			for (Funcionario funcionario : listaFuncionarios) {
+			for (Funcionario funcionario : funcionarios) {
 				gravar.println(funcionario);
 				System.out.println(funcionario);
 			}
@@ -84,5 +85,4 @@ public class Principal {
 			e.printStackTrace();
 		}
 	}
-
 }
